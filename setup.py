@@ -22,7 +22,7 @@ def get_version():
 
 here = os.path.abspath(os.path.dirname(__file__))
 package_name = "extproxy"
-requires = ["socks>=1.7.1"]
+requires = ["PySocks>=1.7.1"]
 
 setup(
     name="ExtProxy",
