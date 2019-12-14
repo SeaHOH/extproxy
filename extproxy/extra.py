@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 """Monkey patching build-in modules to support extra proxy types."""
 
-from .compat import Request, ProxyHandler, splittype, urlparse, HTTPConnection
+from .compat import (socks_warning, splittype, urlparse,
+                    Request, ProxyHandler, HTTPConnection)
 from .https import set_https_proxy, _set_tunnel_https
 from .socks import SOCKS_PROXY_TYPES, _set_tunnel_socks
 from .ssl_wrap_socket import _wrap_socket
@@ -26,8 +27,11 @@ def _proxy_open(self, req, proxy, type):
         return
 
     if proxy_type in SOCKS_PROXY_TYPES:
-        req.set_proxy(proxy, "socks")
-        return
+        if SOCKS_PROXY_TYPES[proxy_type] is None:
+            socks_warning()
+        else:
+            req.set_proxy(proxy, "socks")
+            return
 
     _proxy_open.orig(self, req, proxy, type)
 

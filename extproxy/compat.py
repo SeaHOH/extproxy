@@ -6,6 +6,10 @@ import sys
 
 PY3 = sys.version_info.major == 3
 
+def socks_warning():
+    print("Pleaes install PySocks to support SOCKS proxy: "
+          "`pip install PySocks`", file=sys.stderr)
+
 try:
     import socks
 except ImportError as e:
@@ -14,8 +18,7 @@ except ImportError as e:
         sys.modules['win_inet_pton'] = socket_inet_p
         import socks
     else:
-        print("Pleaes install PySocks to support SOCKS proxy: "
-              "`pip install PySocks`", file=sys.stderr)
+        socks_warning()
         socks = None
 
 try:

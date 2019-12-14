@@ -31,11 +31,11 @@ Usage:
 
     context_settings = {
         "protocol": ssl.PROTOCOL_TLSv1_2,
-        "cert_reqs": ss.CERT_REQUIRED,  #
-        "check_hostname": True,         #
-        "cafile": "cafile path",        #
-        "capath": "cafiles dir path",   #
-        "cadata": b"ca data"            # Uesd to server auth
+        "cert_reqs": ssl.CERT_REQUIRED,  #
+        "check_hostname": True,          #
+        "cafile": "cafile path",         #
+        "capath": "cafiles dir path",    #
+        "cadata": b"ca data"             # Uesd to server auth
         "certfile": "certfile path",  #
         "keyfile": "keyfile path",    # Uesd to client auth
     }
@@ -69,7 +69,7 @@ Usage:
     extproxy.restore_items()
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "SeaHOH<seahoh@gmail.com>"
 
 from .extra import *

@@ -9,7 +9,13 @@ from .util import is_ipv4
 _socks4_no_rdns = set()
 
 if socks is None:
-    SOCKS_PROXY_TYPES = {}
+    SOCKS_PROXY_TYPES = {
+        "socks4" : None,
+        "socks4a": None,
+        "socks"  : None,
+        "socks5" : None,
+        "socks5h": None
+    }
     def _set_tunnel_socks(self, proxy): pass
 
 else:
