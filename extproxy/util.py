@@ -9,7 +9,7 @@ from .compat import PY3, time
 
 
 def _forward_socket(local, remote, wait_local=False,
-                                   timeout=60, tick=4, bufsize=8192):
+                                   timeout=60, tick=4, bufsize=1024*32):
     buf = memoryview(bytearray(bufsize))
     maxpong = timeout
     allins = [local, remote]
@@ -99,7 +99,7 @@ except AttributeError:
 
 def is_ipv4(s):
     try:
-        socket.inet_aton(s)
+        socket.inet_pton(socket.AF_INET, s)
     except:
         return False
     else:

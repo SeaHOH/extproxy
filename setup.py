@@ -38,7 +38,8 @@ setup(
     keywords="urllib ProxyHandler HTTPS SOCKS proxy",
     packages=[package_name],
     install_requires=requires,
-    zip_safe = True,
+    zip_safe=True,
+    platforms="any",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License",
