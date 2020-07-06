@@ -4,7 +4,7 @@ SOCKS. It provides a consistent user experience like HTTP proxy for the users.
 
 This script is using a non-side-effects monkey patch, it did not applied to
 build-in module socket, just inject some codes into `Request`, `ProxyHandler`,
-`HTTPConnection`, `SSLContext` method's processing. Don't need to worry about
+`HTTPConnection`, `SSLContext` method's processing. No need to worry about
 the patching, you can using everything like before, or you can unpatch it at
 any time.
 
@@ -69,7 +69,7 @@ Usage:
     extproxy.restore_items()
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __author__ = "SeaHOH<seahoh@gmail.com>"
 
 from .extra import *

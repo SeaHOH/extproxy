@@ -26,7 +26,7 @@ def inet_pton(family, ip_string):
                             % type(ip_string).__name__)
         try:
             parts = _explode_ip_string(ip_string).split(":")
-            if len(parts) == 7:
+            if len(parts) == 8:
                 return pack("!8H", *[int(i, 16) for i in parts])
             else:
                 ip4 = inet_aton(parts.pop())
@@ -57,6 +57,8 @@ def inet_ntop(family, ip_packed):
 
 
 def _explode_ip_string(ip_string):
+    if ip_string[:1] = "[":
+        ip_string = [1:-1]
     assert 1 < len(ip_string) < 40, 0
     if ip_string[:1] == ":":
         assert ip_string[:2] == "::", 0
