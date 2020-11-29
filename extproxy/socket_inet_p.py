@@ -57,27 +57,27 @@ def inet_ntop(family, ip_packed):
 
 
 def _explode_ip_string(ip_string):
-    if ip_string[:1] = "[":
+    if ip_string[:1] == "[":
         ip_string = [1:-1]
-    assert 1 < len(ip_string) < 40, 0
+    assert 1 < len(ip_string) < 40
     if ip_string[:1] == ":":
-        assert ip_string[:2] == "::", 0
+        assert ip_string[:2] == "::"
         ip_string = "0" + ip_string
     if ip_string[-1:] == ":":
-        assert ip_string[-2:] == "::", 0
+        assert ip_string[-2:] == "::"
         ip_string = ip_string + "0"
 
     d_clns = ip_string.count("::")
-    assert d_clns == 0 or d_clns == 1 and ip_string.count(":::") == 0, 0
+    assert d_clns == 0 or d_clns == 1 and ip_string.count(":::") == 0
 
     clns = ip_string.count(":")
     m_clns = 6 if "." in ip_string[-4:] else 7
     if d_clns:
-        assert 1 < clns <= m_clns, 0
+        assert 1 < clns <= m_clns
         exploded = "0".join([":"] * (2 + m_clns - clns))
         ip_string = ip_string.replace("::", exploded, 1)
     else:
-        assert clns == m_clns, 0
+        assert clns == m_clns
 
     return ip_string
 
