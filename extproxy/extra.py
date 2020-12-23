@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Monkey patching build-in modules to support extra proxy types."""
 
-from .compat import (socks_warning, splittype, urlparse,
-                    Request, ProxyHandler, HTTPConnection)
+from .compat import (socks_warning, proxy_bypass, splittype, urlparse,
+                     Request, ProxyHandler, HTTPConnection)
 from .https import set_https_proxy, _set_tunnel_https
 from .socks import SOCKS_PROXY_TYPES, _set_tunnel_socks
 from .ssl_wrap_socket import _wrap_socket
@@ -18,6 +18,9 @@ def _set_proxy(self, host, type):
         _set_proxy.orig(self, host, type)
 
 def _proxy_open(self, req, proxy, type):
+    if req.host and proxy_bypass(req.host):
+        return
+
     proxy_type = splittype(proxy)[0]
 
     if proxy_type == "https":
@@ -33,7 +36,7 @@ def _proxy_open(self, req, proxy, type):
             req.set_proxy(proxy, "socks")
             return
 
-    _proxy_open.orig(self, req, proxy, type)
+    return _proxy_open.orig(self, req, proxy, type)
 
 def _set_tunnel(self, host, port=None, headers=None):
     try:
@@ -42,8 +45,7 @@ def _set_tunnel(self, host, port=None, headers=None):
         _set_tunnel.orig(self, host, port, headers)
         return
     if self.sock:
-        raise RuntimeError("Can't set up %s proxy tunnel for established "
-                           "connection" % type.upper())
+        raise RuntimeError("Can't set up tunnel for established connection")
 
     proxy = urlparse(proxy)
     if type == "https":

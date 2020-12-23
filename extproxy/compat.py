@@ -27,7 +27,7 @@ except ImportError:
     from time import time
 
 if PY3:
-    from urllib.request import Request, ProxyHandler
+    from urllib.request import Request, ProxyHandler, proxy_bypass
     try:
         from urllib.request import splittype
     except ImportError:  # py38
@@ -35,6 +35,6 @@ if PY3:
     from urllib.parse import urlparse
     from http.client import HTTPConnection
 else:
-    from urllib2 import Request, build_opener, ProxyHandler, splittype
+    from urllib2 import Request, ProxyHandler, proxy_bypass, splittype
     from urlparse import urlparse
     from httplib import HTTPConnection
