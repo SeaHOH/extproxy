@@ -52,7 +52,7 @@ def _create_https_context(check_hostname, cafile, context):
 
 def _set_tunnel_https(self, proxy):
     def create_connection(dest_pair, timeout=None, source_address=None,
-                          self=self, proxy=proxy):
+                          proxy=proxy):
         sock = socket.create_connection(dest_pair, timeout, source_address)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 

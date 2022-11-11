@@ -1,4 +1,5 @@
 # ExtProxy
+[![license](https://img.shields.io/github/license/SeaHOH/extproxy)](https://github.com/SeaHOH/extproxy/blob/master/LICENSE)
 [![release status](https://img.shields.io/github/v/release/SeaHOH/extproxy?include_prereleases&sort=semver)](https://github.com/SeaHOH/extproxy/releases)
 [![code size](https://img.shields.io/github/languages/code-size/SeaHOH/extproxy)](https://github.com/SeaHOH/extproxy)
 
@@ -84,4 +85,4 @@ extproxy.restore_items()
 ```
 
 # License
-ExtProxy is released under the [![license](https://img.shields.io/github/license/SeaHOH/extproxy)](https://github.com/SeaHOH/extproxy/blob/master/LICENSE).
+ExtProxy is released under the [MIT License](https://github.com/SeaHOH/extproxy/blob/master/LICENSE).
