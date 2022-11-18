@@ -5,7 +5,7 @@ import select
 import errno
 import threading
 
-from .compat import PY3, time
+from .compat import PY3, mtime
 
 
 def _forward_socket(local, remote, wait_local=False,
@@ -23,9 +23,9 @@ def _forward_socket(local, remote, wait_local=False,
             remote.sendall(buf[:ndata])
 
         while allins and timecount > 0:
-            start_time = time()
+            start_time = mtime()
             ins, _, err = select.select(allins, [], allins, tick)
-            t = time() - start_time
+            t = mtime() - start_time
             timecount -= int(t)
             if err:
                 raise socket.error(err)

@@ -21,11 +21,6 @@ except ImportError as e:
         socks_warning()
         socks = None
 
-try:
-    from time import monotonic as time
-except ImportError:
-    from time import time
-
 if PY3:
     from urllib.request import Request, ProxyHandler, proxy_bypass
     try:
@@ -34,7 +29,9 @@ if PY3:
         from urllib.request import _splittype as splittype
     from urllib.parse import urlparse
     from http.client import HTTPConnection
+    from time import perf_counter as mtime
 else:
     from urllib2 import Request, ProxyHandler, proxy_bypass, splittype
     from urlparse import urlparse
     from httplib import HTTPConnection
+    from time import time as mtime
