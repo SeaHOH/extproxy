@@ -27,10 +27,16 @@ def set_https_proxy(proxy, check_hostname=None, cafile=None, context=None):
             https://docs.python.org/3/library/ssl.html#ssl-contexts
     """
 
-    proxy = urlparse(proxy)
+    if not isinstance(proxy, tuple):
+        proxy = urlparse(proxy)
+    netloc = _get_normal_netloc(proxy)
+    _https_proxy_contexts[netloc] = check_hostname, cafile, context
+
+def _get_normal_netloc(proxy):
     if proxy.port is None:
-        proxy.netloc += ":443"
-    _https_proxy_contexts[proxy.netloc] = check_hostname, cafile, context
+        return proxy.netloc + ":443"
+    else:
+        return proxy.netloc
 
 def _create_https_context(check_hostname, cafile, context):
     if context is None:
@@ -56,15 +62,14 @@ def _set_tunnel_https(self, proxy):
         sock = socket.create_connection(dest_pair, timeout, source_address)
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
-        if proxy.port is None:
-            proxy.netloc += ":443"
-        proxy_host = proxy.netloc
-        if proxy_host not in _https_proxy_contexts:
-            proxy_host = proxy.netloc.rpartition("@")[-1]
-            if proxy_host not in _https_proxy_contexts:
-                set_https_proxy(proxy.geturl())
-                proxy_host = proxy.netloc
-        context = _create_https_context(*_https_proxy_contexts[proxy_host])
-        return context.wrap_socket(sock, server_hostname=proxy.hostname)
+        netloc = _get_normal_netloc(proxy)
+        context_parms = _https_proxy_contexts.get(netloc)
+        if context_parms is None:
+            context_parms = _https_proxy_contexts.get(netloc.rpartition("@")[-1])
+        if context_parms is None:
+            set_https_proxy(proxy)
+            context_parms = _https_proxy_contexts[netloc]
+        return _create_https_context(*context_parms).wrap_socket(
+                    sock, server_hostname=proxy.hostname)
 
     self._create_connection = create_connection
