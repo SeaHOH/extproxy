@@ -58,7 +58,7 @@ def inet_ntop(family, ip_packed):
 
 def _explode_ip_string(ip_string):
     if ip_string[:1] == "[":
-        ip_string = [1:-1]
+        ip_string = ip_string[1:-1]
     assert 1 < len(ip_string) < 40
     if ip_string[:1] == ":":
         assert ip_string[:2] == "::"
